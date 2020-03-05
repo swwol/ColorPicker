@@ -13,7 +13,7 @@ import SwiftUI
 
 public struct ColorPicker : View {
     
-    public var color: Binding<Color>
+    public var color: Binding<UIColor>
     public var strokeWidth: CGFloat = 30
     
     public var body: some View {
@@ -23,7 +23,7 @@ public struct ColorPicker : View {
         .aspectRatio(1, contentMode: .fit)
     }
     
-    public init(color: Binding<Color>, strokeWidth: CGFloat) {
+    public init(color: Binding<UIColor>, strokeWidth: CGFloat) {
         self.color = color
         self.strokeWidth = strokeWidth
     }
@@ -33,7 +33,7 @@ public struct ColorPicker : View {
 public struct ColorWheel: View {
     
     public var frame: CGRect
-    public var color: Binding<Color>
+    public var color: Binding<UIColor>
     @State private var position: CGPoint = CGPoint.zero
     @State private var angle: Angle = .degrees(-45)
     public var strokeWidth: CGFloat
@@ -47,7 +47,7 @@ public struct ColorWheel: View {
                 .gesture(DragGesture(minimumDistance: 0, coordinateSpace: .local).onChanged(self.update(value:))
             )
             Circle()
-                .fill(color.wrappedValue)
+                .fill(Color(color.wrappedValue))
                 .frame(width: strokeWidth, height: strokeWidth, alignment: .center)
                 .fixedSize()
                 .offset(indicatorOffset)
@@ -61,7 +61,7 @@ public struct ColorWheel: View {
         }
     }
     
-    public init(frame: CGRect, color: Binding<Color>, strokeWidth: CGFloat) {
+    public init(frame: CGRect, color: Binding<UIColor>, strokeWidth: CGFloat) {
         self.frame = frame
         self.color = color
         self.strokeWidth = strokeWidth
@@ -70,7 +70,7 @@ public struct ColorWheel: View {
     internal func update(value: DragGesture.Value) {
         self.position = value.location
         self.angle = Angle(radians: radCenterPoint(value.location, frame: self.frame))
-        self.color.wrappedValue = Color.fromAngle(angle: self.angle)
+        self.color.wrappedValue = UIColor.fromAngle(angle: self.angle)
     }
     
     internal func radCenterPoint(_ point: CGPoint, frame: CGRect) -> Double {

@@ -19,6 +19,17 @@ extension Color {
 
 }
 
+extension UIColor {
+    static func fromAngle(angle: Angle) -> UIColor {
+        return UIColor(hue: CGFloat(angle.radians / (2 * .pi)), saturation: 1, brightness: 1, alpha: 1)
+       }
+       
+       static func fromAngle(rad: Double) -> Color {
+           Color.fromAngle(angle: Angle(radians: rad))
+       }
+    
+}
+
 extension Gradient {
     
     static let colorWheelSpectrum: Gradient = Gradient(colors: [
